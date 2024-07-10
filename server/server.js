@@ -1,8 +1,10 @@
-//require("dotenv").config();
+const dotenv = require('dotenv');
+const path = require('path');
 const express = require('express');
 const app = express();
 const router = require("./router/auth-router") ;
-const connectDb = require("./utils/db")
+const connectDb = require("./utils/db");
+const result = dotenv.config({ path: path.resolve(__dirname, './.env') });
 
 app.use(express.json());
 
@@ -24,8 +26,17 @@ app.use("/api/auth", router);
 
 
 const PORT =8080;
-connectDb().then(()=>{
-    app.listen(PORT,() =>{
-        console.log(`server is run at port: ${PORT}`);
-    });
-});
+// connectDb().then(()=>{
+//     app.listen(PORT,() =>{
+//         console.log(`server is run at port: ${PORT}`);
+//     });
+// });
+
+
+connectDb().then(() => {
+    app.listen(PORT, () => {
+        console.log(`SERVER IS RUNNING AT PORT: ${PORT}`);
+    })
+})
+
+//module.exports = connectDb;

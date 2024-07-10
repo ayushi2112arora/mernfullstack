@@ -1,4 +1,4 @@
-
+const User = require("../model/user-model")
 // const dotenv = require('dotenv');
 // const User = require("../auth-model");
 
@@ -11,18 +11,24 @@
 // };
 
 
-// const register = async (req, res) => {
-//   try {
-//     // const data = req.body;
-//     console.log(req.body);
-//     const { username, email, phone, password } = req.body;
+const register = async (req, res) => {
+  try {
+    // const data = req.body;
+    console.log(req.body);
+    const { username, email, phone, password } = req.body;
 
-//     const userExist = await User.findOne({ email: email });
+    const userExist = await User.findOne({ email });
 
-//     if (userExist) {
-//       return res.json({ msg: "email already exists" });
-//     }
+    if (userExist){
+      return res.json({msg:"email already exists"});
+    }
 
+    const userCreated=await User.create({username, email, phone, password})
+    res.json({msg:"registration successful",token: await userCreated.generateToken(),userId:userCreated._id.toString()});
+   } catch(error){
+    res.json('error');
+   }
+  }
 //     const userCreated = await User.create({ username, email, phone, password });
 
 //     // res.status(201).json({ message: "User registered successfully" });
@@ -66,12 +72,14 @@ const home = async(req,res)=>{
 //     }
 // }
 
-const register = async (req,res)=>{
-  try {
-      console.log(req.body);
-      res.json({message:req.body});
-  } catch (error) {
-      res.json('page not find ')
-  }
-}
+// const register = async (req,res)=>{
+//   try {
+      
+//       console.log(req.body);
+//       const data = req.body;
+//       res.json({data});
+//   } catch (error) {
+//       res.json('page not find ')
+//   }
+// }
 module.exports={home,register};

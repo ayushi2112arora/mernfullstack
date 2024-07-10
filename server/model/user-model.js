@@ -75,8 +75,8 @@ userSchema.methods.generateToken = async function () {
     console.error("Token Error: ", error);
   }
 };
-console.log('secret_key',process.env.JWT_SECRET_KEY);
+//console.log('secret_key',process.env.JWT_SECRET_KEY);
 //? define the model or the collection name
-const User = new mongoose.model("USER", userSchema);
+const User = new mongoose.model("User", userSchema);
 
 module.exports = User;
