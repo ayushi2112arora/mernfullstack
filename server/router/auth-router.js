@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const {home,register} = require("../controllers/auth-conroller");
+const {home,register, login} = require("../controllers/auth-conroller");
 
 // app.get("/login",(req,res)=>{
 //     res.send("hello world");
@@ -9,7 +9,8 @@ const {home,register} = require("../controllers/auth-conroller");
 
 
 router.route("/").get(home);
-router.route("/register").post(register)
+router.route("/register").post(register);
+router.route("/login").post(login);
 // router.route("/register").get((req,res)=>{
 //     res.send("hey i am ayushi arora");
 // });

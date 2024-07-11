@@ -1,4 +1,5 @@
-const User = require("../model/user-model")
+const User = require("../model/user-model");
+const bcrypt = require("bcryptjs");
 // const dotenv = require('dotenv');
 // const User = require("../auth-model");
 
@@ -26,7 +27,7 @@ const register = async (req, res) => {
     const userCreated=await User.create({username, email, phone, password})
     res.json({msg:"registration successful",token: await userCreated.generateToken(),userId:userCreated._id.toString()});
    } catch(error){
-    res.json('error');
+    res.json('internal server error');
    }
   }
 //     const userCreated = await User.create({ username, email, phone, password });
@@ -82,4 +83,40 @@ const home = async(req,res)=>{
 //       res.json('page not find ')
 //   }
 // }
-module.exports={home,register};
+
+
+// USER  LOGIN   LOGIC
+
+const login = async (req,res) => {
+  try {
+    const {email,password}=req.body;
+
+    const userExist = await User.findOne({email});
+    console.log(userExist);
+
+    if(!userExist){
+      return res.json({msg:"invalid credentials"});
+    }
+    const user = await bcrypt.compare(password,userExist.password);
+
+    if(user){
+      res.json({
+      msg:"login successfull",
+      token:await userExist.generateToken(),
+      userId:userExist._id.toString(),
+    });
+  }else{
+    res.json({msg:"invalid email and password"})
+  }
+
+
+
+    
+  } catch (error) {
+    res.json("internal server error");
+  }
+}
+
+
+
+module.exports={home,register,login};
