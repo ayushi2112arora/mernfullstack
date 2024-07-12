@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const {home,register, login} = require("../controllers/auth-conroller");
+const authcontrollers = require("../controllers/auth-conroller");
+const signupSchema = require("../validation/auth-validator");
+const validate = require("../middleware/validate-middleware");
 
 // app.get("/login",(req,res)=>{
 //     res.send("hello world");
@@ -8,9 +10,9 @@ const {home,register, login} = require("../controllers/auth-conroller");
 //router.route("/").get(authcontrollers.home);
 
 
-router.route("/").get(home);
-router.route("/register").post(register);
-router.route("/login").post(login);
+router.route("/").get(authcontrollers.home);
+router.route("/register").post(validate(signupSchema),authcontrollers.register);
+router.route("/login").post(authcontrollers.login);
 // router.route("/register").get((req,res)=>{
 //     res.send("hey i am ayushi arora");
 // });

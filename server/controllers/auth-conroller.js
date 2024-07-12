@@ -97,7 +97,10 @@ const login = async (req,res) => {
     if(!userExist){
       return res.json({msg:"invalid credentials"});
     }
-    const user = await bcrypt.compare(password,userExist.password);
+
+    //const user = await bcrypt.compare(password,userExist.password);
+
+    const user = await userExist.comparePassword(password);
 
     if(user){
       res.json({
@@ -108,15 +111,9 @@ const login = async (req,res) => {
   }else{
     res.json({msg:"invalid email and password"})
   }
-
-
-
-    
-  } catch (error) {
-    res.json("internal server error");
-  }
+} catch (error) {
+  res.json("internal server error");
 }
-
-
+}
 
 module.exports={home,register,login};
