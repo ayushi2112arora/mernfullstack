@@ -3,6 +3,7 @@ const router = express.Router();
 const authcontrollers = require("../controllers/auth-conroller");
 const signupSchema = require("../validation/auth-validator");
 const validate = require("../middleware/validate-middleware");
+const loginschema = require("../validation/loginschema");
 
 // app.get("/login",(req,res)=>{
 //     res.send("hello world");
@@ -11,8 +12,11 @@ const validate = require("../middleware/validate-middleware");
 
 
 router.route("/").get(authcontrollers.home);
-router.route("/register").post(validate(signupSchema),authcontrollers.register);
-router.route("/login").post(authcontrollers.login);
+router
+.route("/register")
+.post(validate(signupSchema),authcontrollers.register);
+router.route("/login").post(validate(loginschema),authcontrollers.login);
+//router.route("/register").post(authcontrollers.register);
 // router.route("/register").get((req,res)=>{
 //     res.send("hey i am ayushi arora");
 // });

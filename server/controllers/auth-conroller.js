@@ -27,7 +27,8 @@ const register = async (req, res) => {
     const userCreated=await User.create({username, email, phone, password})
     res.json({msg:"registration successful",token: await userCreated.generateToken(),userId:userCreated._id.toString()});
    } catch(error){
-    res.json('internal server error');
+    //res.json('internal server error');
+    next(error);
    }
   }
 //     const userCreated = await User.create({ username, email, phone, password });
@@ -112,7 +113,8 @@ const login = async (req,res) => {
     res.json({msg:"invalid email and password"})
   }
 } catch (error) {
-  res.json("internal server error");
+  //res.json("internal server error");
+  next(error);
 }
 }
 

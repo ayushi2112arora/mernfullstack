@@ -11,10 +11,38 @@ const validate = (schema) => async (req,res,next)=>{
         next();
     } catch (err) {
         //console.log(err);
-        const message = err.errors[0].message;
-        console.log(message);
-        res.json({message:message});
+        const extraDetails = err.errors[0].message;
+        const message = "fill  the input properly"
+        const error = {
+            message,
+            extraDetails ,
+
+        }
+        console.log(error);
+        //res.json({msg: message });
+        next(error)
     }
 };
 
-module.exports = validate;
+
+const loginvalidate = (schema) => async (req,res,next)=>{
+    try {
+        const parseBody = await schema.parseAsync(req.body);
+        req.body = parseBody;
+        next();
+    } catch (err) {
+        //console.log(err);
+        const extraDetails = err.errors[0].message;
+        const message = "succesfully login"
+        const error = {
+            message,
+            extraDetails ,
+
+        }
+        console.log(error);
+        //res.json({msg: message });
+        next(error)
+    }
+};
+
+module.exports = (validate,loginvalidate);
